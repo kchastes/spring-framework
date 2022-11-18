@@ -31,6 +31,7 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class MissingRequiredPropertiesException extends IllegalStateException {
 
+	// 缺少必填的属性集合
 	private final Set<String> missingRequiredProperties = new LinkedHashSet<>();
 
 

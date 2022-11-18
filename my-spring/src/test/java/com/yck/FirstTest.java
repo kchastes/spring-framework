@@ -2,15 +2,16 @@ package com.yck;
 
 import com.yck.entity.User;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class FirstTest {
 
 	@Test
 	public void Test(){
-
-		/*BeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("spring-config.xml"));
+		ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("spring.xml","spring2.xml");
 		User user = (User) beanFactory.getBean("user");
-		System.out.println(user);*/
+		System.out.println(user);
 	}
 
 }

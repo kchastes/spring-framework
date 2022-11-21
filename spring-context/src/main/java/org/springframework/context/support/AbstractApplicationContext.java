@@ -549,18 +549,18 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 			// 为刷新做准备
 			prepareRefresh();
 
-			// 告诉子类要刷新内部Bean工厂
+			// 创建BeanFactory，同时将xml文件解析为对应对象属性
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
-			// Prepare the bean factory for use in this context.
+			// 准备好BeanFactory，以便在这个环境中使用。
 			prepareBeanFactory(beanFactory);
 
 			try {
-				// Allows post-processing of the bean factory in context subclasses.
+				// 允许在上下文子类中对beanFactory进行后处理。
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
-				// Invoke factory processors registered as beans in the context.
+				// 调用在上下文中注册为bean的工厂处理器。
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
@@ -674,8 +674,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
-	 * Configure the factory's standard context characteristics,
-	 * such as the context's ClassLoader and post-processors.
+	 * 配置工厂的标准上下文特性，如上下文的ClassLoader和后处理器。
+	 *
 	 * @param beanFactory the BeanFactory to configure
 	 */
 	protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
@@ -703,7 +703,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.registerResolvableDependency(ApplicationEventPublisher.class, this);
 		beanFactory.registerResolvableDependency(ApplicationContext.class, this);
 
-		// Register early post-processor for detecting inner beans as ApplicationListeners.
+		// 注册早期的后处理程序，用于检测作为ApplicationListeners的内部Bean。
 		beanFactory.addBeanPostProcessor(new ApplicationListenerDetector(this));
 
 		// Detect a LoadTimeWeaver and prepare for weaving, if found.

@@ -433,7 +433,7 @@ public class BeanDefinitionParserDelegate {
 		if (containingBean == null) {
 			checkNameUniqueness(beanName, aliases, ele);
 		}
-
+		// 解析各种标签封装成不同对象内的属性值
 		AbstractBeanDefinition beanDefinition = parseBeanDefinitionElement(ele, beanName, containingBean);
 		if (beanDefinition != null) {
 			if (!StringUtils.hasText(beanName)) {
@@ -513,10 +513,10 @@ public class BeanDefinitionParserDelegate {
 
 		try {
 			AbstractBeanDefinition bd = createBeanDefinition(className, parent);
-
+			// 使用bean标签中的属性填充BeanDefinition
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
-
+			// 解析meta,lookup-method,replaced-method标签
 			parseMetaElements(ele, bd);
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
@@ -547,7 +547,7 @@ public class BeanDefinitionParserDelegate {
 	}
 
 	/**
-	 * Apply the attributes of the given bean element to the given bean * definition.
+	 * 将给定的Bean元素的属性应用于给定的Bean * 定义
 	 * @param ele bean declaration element
 	 * @param beanName bean name
 	 * @param containingBean containing bean definition
@@ -555,7 +555,7 @@ public class BeanDefinitionParserDelegate {
 	 */
 	public AbstractBeanDefinition parseBeanDefinitionAttributes(Element ele, String beanName,
 			@Nullable BeanDefinition containingBean, AbstractBeanDefinition bd) {
-
+		// 旧的1.x'singleton'属性在使用中 - 升级为'scope'声明
 		if (ele.hasAttribute(SINGLETON_ATTRIBUTE)) {
 			error("Old 1.x 'singleton' attribute in use - upgrade to 'scope' declaration", ele);
 		}
@@ -563,28 +563,28 @@ public class BeanDefinitionParserDelegate {
 			bd.setScope(ele.getAttribute(SCOPE_ATTRIBUTE));
 		}
 		else if (containingBean != null) {
-			// Take default from containing bean in case of an inner bean definition.
+			// 在内部Bean定义的情况下，从包含Bean中获取默认值
 			bd.setScope(containingBean.getScope());
 		}
-
+		// abstract抽取公共属性
 		if (ele.hasAttribute(ABSTRACT_ATTRIBUTE)) {
 			bd.setAbstract(TRUE_VALUE.equals(ele.getAttribute(ABSTRACT_ATTRIBUTE)));
 		}
-
+		// 延迟实例化
 		String lazyInit = ele.getAttribute(LAZY_INIT_ATTRIBUTE);
 		if (isDefaultValue(lazyInit)) {
 			lazyInit = this.defaults.getLazyInit();
 		}
 		bd.setLazyInit(TRUE_VALUE.equals(lazyInit));
-
+		// 设置自动匹配模式
 		String autowire = ele.getAttribute(AUTOWIRE_ATTRIBUTE);
 		bd.setAutowireMode(getAutowireMode(autowire));
-
+		// 在实例化前需要先实例化的类
 		if (ele.hasAttribute(DEPENDS_ON_ATTRIBUTE)) {
 			String dependsOn = ele.getAttribute(DEPENDS_ON_ATTRIBUTE);
 			bd.setDependsOn(StringUtils.tokenizeToStringArray(dependsOn, MULTI_VALUE_ATTRIBUTE_DELIMITERS));
 		}
-
+		// 是否为候选bean
 		String autowireCandidate = ele.getAttribute(AUTOWIRE_CANDIDATE_ATTRIBUTE);
 		if (isDefaultValue(autowireCandidate)) {
 			String candidatePattern = this.defaults.getAutowireCandidates();

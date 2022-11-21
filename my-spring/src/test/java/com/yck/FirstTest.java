@@ -9,7 +9,7 @@ public class FirstTest {
 
 	@Test
 	public void Test(){
-		ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("spring.xml","spring2.xml");
+		ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("spring.xml");
 		User user = (User) beanFactory.getBean("user");
 		System.out.println(user);
 	}

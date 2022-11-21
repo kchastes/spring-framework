@@ -178,7 +178,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** 按注册顺序排列的人工注册的bean名称列表 */
 	private volatile Set<String> manualSingletonNames = new LinkedHashSet<>(16);
 
-	/** Cached array of bean definition names in case of frozen configuration. */
+	/** 在冻结配置的情况下，bean类定义名称的缓存阵列 */
 	@Nullable
 	private volatile String[] frozenBeanDefinitionNames;
 
@@ -559,7 +559,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 
 		// Check all bean definitions.
 		for (String beanName : this.beanDefinitionNames) {
-			// Only consider bean as eligible if the bean name is not defined as alias for some other bean.
+			// 只有当Bean的名字没有被定义为其他Bean的别名时，才认为Bean是合格的。
 			if (!isAlias(beanName)) {
 				try {
 					RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
@@ -999,7 +999,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 						"Validation of bean definition failed", ex);
 			}
 		}
-
+		// 判断是否存在，存在则通过allowBeanDefinitionOverriding判断是否允许覆盖，默认为true
 		BeanDefinition existingDefinition = this.beanDefinitionMap.get(beanName);
 		if (existingDefinition != null) {
 			if (!isAllowBeanDefinitionOverriding()) {
@@ -1031,7 +1031,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 		else {
 			if (hasBeanCreationStarted()) {
-				// Cannot modify startup-time collection elements anymore (for stable iteration)
+				// 保存至集合，同时删除手工配置的beanName,表示已经自动发现了
 				synchronized (this.beanDefinitionMap) {
 					this.beanDefinitionMap.put(beanName, beanDefinition);
 					List<String> updatedDefinitions = new ArrayList<>(this.beanDefinitionNames.size() + 1);
@@ -1042,7 +1042,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 				}
 			}
 			else {
-				// Still in startup registration phase
+				// 还在启动注册阶段
 				this.beanDefinitionMap.put(beanName, beanDefinition);
 				this.beanDefinitionNames.add(beanName);
 				removeManualSingletonName(beanName);
@@ -1099,7 +1099,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	 * @see #removeBeanDefinition
 	 */
 	protected void resetBeanDefinition(String beanName) {
-		// Remove the merged bean definition for the given bean, if already created.
+		// Remove the merged bean definition for the given bean, if already created. todo
 		clearMergedBeanDefinition(beanName);
 
 		// Remove corresponding bean from singleton cache, if any. Shouldn't usually
@@ -1187,7 +1187,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			}
 		}
 		else {
-			// Still in startup registration phase
+			// 仍处于启动注册阶段
 			if (condition.test(this.manualSingletonNames)) {
 				action.accept(this.manualSingletonNames);
 			}

@@ -72,7 +72,7 @@ final class PostProcessorRegistrationDelegate {
 		// to ensure that your proposal does not result in a breaking change:
 		// https://github.com/spring-projects/spring-framework/issues?q=PostProcessorRegistrationDelegate+is%3Aclosed+label%3A%22status%3A+declined%22
 
-		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
+		//  首先调用BeanDefinitionRegistryPostProcessors，如果有的话。
 		Set<String> processedBeans = new HashSet<>();
 
 		if (beanFactory instanceof BeanDefinitionRegistry) {
@@ -98,7 +98,7 @@ final class PostProcessorRegistrationDelegate {
 			// PriorityOrdered, Ordered, and the rest.
 			List<BeanDefinitionRegistryPostProcessor> currentRegistryProcessors = new ArrayList<>();
 
-			// First, invoke the BeanDefinitionRegistryPostProcessors that implement PriorityOrdered.
+			// 首先，调用实现PriorityOrdered的BeanDefinitionRegistryPostProcessors。
 			String[] postProcessorNames =
 					beanFactory.getBeanNamesForType(BeanDefinitionRegistryPostProcessor.class, true, false);
 			for (String ppName : postProcessorNames) {
@@ -149,7 +149,7 @@ final class PostProcessorRegistrationDelegate {
 		}
 
 		else {
-			// Invoke factory processors registered with the context instance.
+			// 调用与上下文实例一起注册的工厂处理程序。
 			invokeBeanFactoryPostProcessors(beanFactoryPostProcessors, beanFactory);
 		}
 

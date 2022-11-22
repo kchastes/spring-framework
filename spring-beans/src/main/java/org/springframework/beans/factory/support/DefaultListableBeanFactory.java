@@ -150,7 +150,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 	/** 是否允许急于加载类，即使是对懒惰的bean也是如此 */
 	private boolean allowEagerClassLoading = true;
 
-	/** Optional OrderComparator for dependency Lists and arrays. */
+	/** 可选的OrderComparator，用于依赖性列表和数组。 */
 	@Nullable
 	private Comparator<Object> dependencyComparator;
 
@@ -562,8 +562,8 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 			// 只有当Bean的名字没有被定义为其他Bean的别名时，才认为Bean是合格的。
 			if (!isAlias(beanName)) {
 				try {
-					RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
-					// Only check bean definition if it is complete.
+					RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);// 合并父类中的BeanDefinition
+					// 只有在bean类定义完整的情况下才检查
 					if (!mbd.isAbstract() && (allowEagerInit ||
 							(mbd.hasBeanClass() || !mbd.isLazyInit() || isAllowEagerClassLoading()) &&
 									!requiresEagerInitForType(mbd.getFactoryBeanName()))) {

@@ -1,8 +1,16 @@
 package com.yck.entity;
 
-public class User {
+import org.springframework.beans.factory.InitializingBean;
+
+public class User implements InitializingBean {
 
 	private String name;
+
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("InitializingBean method invoke");
+	}
 
 	public String getName() {
 		return name;

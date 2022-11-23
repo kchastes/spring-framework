@@ -9,6 +9,6 @@
 
 	<!--<context:annotation-config/>-->
 
-	<bean id="user" name="user2,user3" class="com.yck.entity.User" >
-	</bean>
+	<bean id="user" name="user2,user3" class="com.yck.entity.User" lazy-init="true"/>
+	<bean class="com.yck.entity.TestProcessor" lazy-init="true"/>
 </beans>

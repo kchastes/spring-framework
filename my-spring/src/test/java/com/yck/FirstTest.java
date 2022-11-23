@@ -11,7 +11,7 @@ public class FirstTest {
 	public void Test(){
 		ClassPathXmlApplicationContext beanFactory = new ClassPathXmlApplicationContext("spring.xml");
 		User user = (User) beanFactory.getBean("user");
-		System.out.println(user);
+		//System.out.println(user);
 	}
 
 }

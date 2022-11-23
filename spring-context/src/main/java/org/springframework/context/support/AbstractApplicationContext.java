@@ -221,7 +221,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private MessageSource messageSource;
 
-	/** Helper class used in event publishing. */
+	/** 在事件发布中使用的帮助类. */
 	@Nullable
 	private ApplicationEventMulticaster applicationEventMulticaster;
 
@@ -560,10 +560,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
-				// 调用在上下文中注册为bean的工厂处理器。
+				// 调用BeanFactoryPostProcessor处理器。优先处理BeanDefinitionRegistryPostProcessors 然后再是BeanFactoryPostProcessor
 				invokeBeanFactoryPostProcessors(beanFactory);
 
-				// Register bean processors that intercept bean creation.
+				//注册BeanPostProcessor处理器。 只是扫描添加，并未调用
 				registerBeanPostProcessors(beanFactory);
 				beanPostProcess.end();
 
